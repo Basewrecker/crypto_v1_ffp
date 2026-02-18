@@ -1,16 +1,48 @@
-# React + Vite
+Crypto dashboard that uses the coingecko API to display basic details. 
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project includes a custom Express proxy server to avoid CORS issues when fetching data from the API.
 
-Currently, two official plugins are available:
+## What It Does
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Displays live crypto prices and market data  
+- Fetches data from the CoinGecko API  
+- Uses a custom proxy server to handle API requests  
 
-## React Compiler
+## How the Proxy Works
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Instead of calling the CoinGecko API directly from the browser, the frontend sends requests to a local Express server.
 
-## Expanding the ESLint configuration
+The Express server forwards the request to CoinGecko and returns the data back to the frontend.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Flow:
+
+Frontend → Express Server → CoinGecko API → Express Server → Frontend
+
+This prevents CORS errors during development.
+
+## How to Run the App
+
+1. Clone the repository
+
+git clone https://github.com/Basewrecker/crypto_v1_ffp.git
+cd crypto_v1_ffp
+
+2. Start the server
+
+cd server
+npm install
+node index.js
+
+The server runs on http://localhost:5000 (this can be changed be if you're on a mac and it interfers with the airport express card; change it via the server config settings)
+
+3. Start the frontend
+
+Open a new terminal:
+
+cd client
+npm install
+npm run dev
+
+The frontend runs on http://localhost:5173
+
+Make sure the server is running before starting the frontend.

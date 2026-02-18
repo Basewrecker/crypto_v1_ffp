@@ -40,12 +40,37 @@ app.get("/api/coins", async (req, res) => {
 });
 
 
+app.get("/api/coin/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const response = await axios.get(
+      `https://api.coingecko.com/api/v3/coins/${id}`,
+      {
+        headers: {
+          "x-cg-demo-api-key": process.env.COINGECKO_API_KEY
+        }
+      }
+    );
+
+    res.json(response.data);
+
+  } catch (error) {
+    console.error("DETAIL ERROR:", error.response?.data || error.message);
+    res.status(500).json({
+      error: error.response?.data || error.message
+    });
+  }
+});
+
 app.use(express.static(path.join(__dirname, "../dist")));
+
 
 
 app.use((req, res) => {
   res.sendFile(path.join(__dirname, "../dist/index.html"));
 });
+
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

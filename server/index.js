@@ -2,11 +2,13 @@ require("dotenv").config();
 const express = require("express");
 const axios = require("axios");
 const cors = require("cors");
+const path = require("path");
 
 const app = express();
-const PORT = 4000;
+const PORT = process.env.PORT || 4000;
 
 app.use(cors());
+
 
 app.get("/api/coins", async (req, res) => {
   try {
@@ -37,6 +39,14 @@ app.get("/api/coins", async (req, res) => {
   }
 });
 
+
+app.use(express.static(path.join(__dirname, "../dist")));
+
+
+app.use((req, res) => {
+  res.sendFile(path.join(__dirname, "../dist/index.html"));
+});
+
 app.listen(PORT, () => {
-  console.log(`Proxy server running on http://localhost:${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });

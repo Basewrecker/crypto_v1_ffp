@@ -1,7 +1,7 @@
 import {useState, useEffect} from "react";
-import {useParams, Link} from "react-router";
-import Spinner from "../components/Spinner.jsx"
-import CoinChart from "../components/CoinChart.jsx"
+import {useParams, Link} from "react-router-dom";
+import Spinner from "../components/Spinner.jsx";
+import CoinChart from "../components/CoinChart.jsx";
 
 
 const CoinDetailsPage = () => {
@@ -17,16 +17,14 @@ const CoinDetailsPage = () => {
                 const res = await fetch(`/api/coins/${id}`);
                 if (!res.ok) throw new Error('Failed to fetch the data');
                 const data = await res.json();
-                console.log('API_URL', API_URL);
                 setCoin(data);
             } catch (error) {
-                
                 setError(error.message);
             } finally {
                 setLoading(false);
             }
          };
-        
+
         fetchCoin();
     }, [id]);
     

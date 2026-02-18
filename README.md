@@ -20,7 +20,10 @@ Frontend → Express Server → CoinGecko API → Express Server → Frontend
 
 This prevents CORS errors during development.
 
-## How to Run the App
+If you want to access the app on a website: 
+https://crypto-nite.onrender.com
+
+## How to Run the App (locally)
 
 1. Clone the repository
 
@@ -46,3 +49,4 @@ npm run dev
 The frontend runs on http://localhost:5173
 
 Make sure the server is running before starting the frontend.
+

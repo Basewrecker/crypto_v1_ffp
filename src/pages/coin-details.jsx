@@ -14,34 +14,26 @@ const CoinDetailsPage = () => {
     const [error, setError] = useState(null);
     
     useEffect(() => {
-        const fetchCoin = async () => {
-            try {
-                const res = await fetch(`${API_URL}/${id}`);
+    const fetchCoin = async () => {
+        try {
+            const res = await fetch(`/api/coin/${id}`);
 
-                if (!res.ok) {
-                    const message = `Request failed with status ${res.status}`;
-                    throw new Error(message);
-                }
-
-                const text = await res.text();
-
-                let data;
-                try {
-                    data = JSON.parse(text);
-                } catch {
-                    throw new Error('Server returned non‑JSON response');
-                }
-
-                setCoin(data);
-            } catch (error) {
-                setError(error.message || 'Failed to fetch the data');
-            } finally {
-                setLoading(false);
+            if (!res.ok) {
+                throw new Error(`Request failed with status ${res.status}`);
             }
-         };
 
-        fetchCoin();
-    }, [id]);
+            const data = await res.json();
+            setCoin(data);
+
+        } catch (error) {
+            setError(error.message || 'Failed to fetch the data');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    fetchCoin();
+}, [id]);
     
     
     return (

@@ -2,7 +2,7 @@ import {useState, useEffect} from "react";
 import {useParams, Link} from "react-router";
 import Spinner from "../components/Spinner.jsx"
 import CoinChart from "../components/CoinChart.jsx"
-const API_URL = import.meta.env.VITE_COIN_API_URL;
+
 
 const CoinDetailsPage = () => {
     
@@ -14,7 +14,7 @@ const CoinDetailsPage = () => {
     useEffect(() => {
         const fetchCoin = async () => {
             try {
-                const res = await fetch(`${API_URL}/${id}`);
+                const res = await fetch('/api/coins/${id}');
                 if (!res.ok) throw new Error('Failed to fetch the data');
                 const data = await res.json();
                 console.log('API_URL', API_URL);

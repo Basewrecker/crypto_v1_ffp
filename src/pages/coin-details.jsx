@@ -3,6 +3,8 @@ import {useParams, Link} from "react-router-dom";
 import Spinner from "../components/Spinner.jsx";
 import CoinChart from "../components/CoinChart.jsx";
 
+const API_URL = import.meta.env.VITE_COIN_API_URL;
+
 
 const CoinDetailsPage = () => {
     
@@ -14,12 +16,25 @@ const CoinDetailsPage = () => {
     useEffect(() => {
         const fetchCoin = async () => {
             try {
-                const res = await fetch(`/api/coins/${id}`);
-                if (!res.ok) throw new Error('Failed to fetch the data');
-                const data = await res.json();
+                const res = await fetch(`${API_URL}/${id}`);
+
+                if (!res.ok) {
+                    const message = `Request failed with status ${res.status}`;
+                    throw new Error(message);
+                }
+
+                const text = await res.text();
+
+                let data;
+                try {
+                    data = JSON.parse(text);
+                } catch {
+                    throw new Error('Server returned non‑JSON response');
+                }
+
                 setCoin(data);
             } catch (error) {
-                setError(error.message);
+                setError(error.message || 'Failed to fetch the data');
             } finally {
                 setLoading(false);
             }
@@ -40,7 +55,7 @@ const CoinDetailsPage = () => {
           {loading && <Spinner />}
           {error && <div className = "error">{`❌ ${error}`}</div>}
           
-            {!loading && !error && (
+            {!loading && !error && coin && (
               <>
                 <img src={coin.image.large} alt={coin.name} className = "coin-details-image"/>
                 <p>
@@ -107,7 +122,9 @@ const CoinDetailsPage = () => {
                     )}
                 </div>
                 
-                {!loading && !error && !coin && <p>No data found, please try again.</p>}
+                {!loading && !error && !coin && (
+                  <p>No data found, please try again.</p>
+                )}
               </>
             )}
       </div>

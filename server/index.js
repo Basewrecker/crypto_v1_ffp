@@ -38,7 +38,33 @@ app.get("/api/coins", async (req, res) => {
     });
   }
 });
+                  
+app.get("/api/coin/:id/market_chart", async (req, res) => {
+  try {
+    const { id } = req.params;
 
+    const response = await axios.get(
+      `https://api.coingecko.com/api/v3/coins/${id}/market_chart`,
+      {
+        headers: {
+          "x-cg-demo-api-key": process.env.COINGECKO_API_KEY
+        },
+        params: {
+          vs_currency: "usd",
+          days: 7
+        }
+      }
+    );
+
+    res.json(response.data);
+
+  } catch (error) {
+    console.error("CHART ERROR:", error.response?.data || error.message);
+    res.status(500).json({
+      error: error.response?.data || error.message
+    });
+  }
+});
 
 app.get("/api/coin/:id", async (req, res) => {
   try {

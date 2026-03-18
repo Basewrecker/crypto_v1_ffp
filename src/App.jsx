@@ -5,8 +5,11 @@ import AboutPage from "./pages/about.jsx";
 import NotFoundPage from "./pages/not-found.jsx";
 import CoinDetailsPage from "./pages/coin-details.jsx";
 import Header from "./components/Header.jsx";
+import usePageTracking from "./usePageTracking";
+
 const App = () => {
     
+    usePageTracking();
     const [coins, setCoins] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);

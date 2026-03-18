@@ -7,7 +7,7 @@ const usePageTracking= () => {
     
         useEffect(() => {
             window.gtag('config', 'G-XXXXXXX', {
-                page_path: location.pathname;
+                page_path: location.pathname
             });
         }, [location]);
 }
